@@ -1,6 +1,8 @@
 package com.book.manager.domain.repository
 
 import com.book.manager.domain.model.Author
+import com.book.manager.domain.model.AuthorWithBook
+import com.example.ktknowledgeTodo.infra.jooq.tables.Book.Companion.BOOK_
 import com.example.ktknowledgeTodo.infra.jooq.tables.Author.Companion.AUTHOR
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -15,27 +17,27 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     /**
      * IDで取得
      */
-    override fun findBy(id: Int): Author? {
-        return this.dslContext.select().from(AUTHOR).where(AUTHOR.ID.eq(id)).fetchOne()?.let { toModel(it) }
+    override fun findBy(id: Int): List<AuthorWithBook> {
+        return this.dslContext.select().from(AUTHOR).join(BOOK_).on(BOOK_.AUTHOR_ID.eq(AUTHOR.ID))
+            .where(AUTHOR.ID.eq(id)).fetch().map { toModel(it) }
     }
 
     /**
      * 全件取得
      */
-    override fun findAll(): List<Author> {
-        return this.dslContext.select().from(AUTHOR).fetch().map { toModel(it) }
-    }
+    override fun findAll(): List<AuthorWithBook> {
+        return this.dslContext.select().from(AUTHOR).join(BOOK_).on(BOOK_.AUTHOR_ID.eq(AUTHOR.ID))
+            .fetch().map { toModel(it) }    }
 
     /**
      * 登録
      */
-    override fun save(firstName: String, lastName: String): Author {
+    override fun save(name: String): Author {
         val record = this.dslContext.newRecord(AUTHOR).also {
-            it.firstName = firstName
-            it.lastName = lastName
+            it.name = name
             it.store()
         }
-        return Author(record.id!!, record.firstName!!, record.lastName!!)
+        return Author(record.id!!, record.name!!)
     }
 
     /**
@@ -48,9 +50,15 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     /**
      * 取得レコードからモデルへ変換する
      */
-    private fun toModel(record: Record) = Author(
+    private fun toAuthorModel(record: Record) = Author(
         record.getValue(AUTHOR.ID)!!,
-        record.getValue(AUTHOR.FIRST_NAME)!!,
-        record.getValue(AUTHOR.LAST_NAME)!!,
+        record.getValue(AUTHOR.NAME)!!,
+    )
+
+    private fun toModel(record: Record) = AuthorWithBook(
+        record.getValue(AUTHOR.ID)!!,
+        record.getValue(BOOK_.ID)!!,
+        record.getValue(AUTHOR.NAME)!!,
+        record.getValue(BOOK_.TITLE)!!,
     )
 }
