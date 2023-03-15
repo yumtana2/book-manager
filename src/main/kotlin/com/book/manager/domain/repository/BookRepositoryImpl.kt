@@ -35,6 +35,10 @@ class BookRepositoryImpl(private val dslContext: DSLContext) : BookRepository {
         return Book(record.id!!, record.authorId!!, record.title!!)
     }
 
+    override fun update(book: Book) {
+        this.dslContext.update(BOOK_).set(BOOK_.TITLE, book.title).where(BOOK_.ID.eq(book.id)).execute()
+    }
+
     /**
      * IDで削除
      */

@@ -17,15 +17,20 @@ class BookService(
     }
 
     fun registerBook(author: Author, book: Book): Book {
-        val author = repository.save(author)
+        val saveResultAuthor = repository.save(author)
         return bookRepository.save(
             Book(
                 null,
-                author.id,
+                saveResultAuthor.id,
                 book.title
 
             )
         )
+    }
+
+    fun updateBook(book: Book){
+        println("debug message: $book")
+        bookRepository.update(book)
     }
 
     fun deleteBook(bookId: Int) {

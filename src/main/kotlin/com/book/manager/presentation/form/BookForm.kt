@@ -17,3 +17,8 @@ data class ResisterBookRequest(
     val title: String,
     val author: String,
 )
+
+data class UpdateBookRequest(
+    val id: Int,
+    val title: String,
+)

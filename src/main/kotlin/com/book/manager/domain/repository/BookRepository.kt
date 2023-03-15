@@ -9,5 +9,6 @@ import com.book.manager.domain.model.Book
 interface BookRepository {
     fun findAll(): List<AuthorWithBook>
     fun save(book: Book): Book
+    fun update(book: Book)
     fun delete(id: Int)
 }
