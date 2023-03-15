@@ -27,4 +27,8 @@ class BookService(
             )
         )
     }
+
+    fun deleteBook(bookId: Int) {
+        bookRepository.delete(bookId)
+    }
 }

@@ -7,7 +7,9 @@ import com.book.manager.presentation.form.BookInfo
 import com.book.manager.presentation.form.GetBookListResponse
 import com.book.manager.presentation.form.ResisterBookRequest
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -36,5 +38,10 @@ class BookController(
                 request.title,
                 )
         )
+    }
+
+    @DeleteMapping("/delete/{book_id}")
+    fun delete(@PathVariable("book_id") bookId: Int){
+        service.deleteBook(bookId)
     }
 }
