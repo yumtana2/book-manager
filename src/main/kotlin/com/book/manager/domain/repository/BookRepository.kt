@@ -1,14 +1,13 @@
 package com.book.manager.domain.repository
 
-import com.book.manager.domain.model.Author
 import com.book.manager.domain.model.AuthorWithBook
+import com.book.manager.domain.model.Book
 
 /**
  * 著者リポジトリインターフェース
  */
-interface AuthorRepository {
-    fun findBy(id: Int): List<AuthorWithBook>
+interface BookRepository {
     fun findAll(): List<AuthorWithBook>
-    fun save(author: Author): Author
+    fun save(book: Book): Book
     fun delete(id: Int)
 }

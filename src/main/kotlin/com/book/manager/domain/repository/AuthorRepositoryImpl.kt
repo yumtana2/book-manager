@@ -32,9 +32,9 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     /**
      * 登録
      */
-    override fun save(name: String): Author {
+    override fun save(author: Author): Author {
         val record = this.dslContext.newRecord(AUTHOR).also {
-            it.name = name
+            it.name = author.name
             it.store()
         }
         return Author(record.id!!, record.name!!)

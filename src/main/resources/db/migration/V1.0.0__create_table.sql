@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS `book`
     `id`        int NOT NULL AUTO_INCREMENT,
     `author_id` int NOT NULL,
     `title`      varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    CONSTRAINT author_id FOREIGN KEY (`author_id`) REFERENCES author (`id`)
+    PRIMARY KEY (`id`)
 );
 
 INSERT INTO book.author (id, name) VALUES (1, '田中雄二');
