@@ -31,14 +31,14 @@ class BookController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody request: ResisterBookRequest){
+    fun register(@RequestBody request: ResisterBookRequest) {
         service.registerBook(
             Author(null, request.author),
             Book(
-                request.id,
-                request.id,
+                null,
+                null,
                 request.title,
-                )
+            )
         )
     }
 
@@ -55,7 +55,7 @@ class BookController(
     }
 
     @DeleteMapping("/delete/{book_id}")
-    fun delete(@PathVariable("book_id") bookId: Int){
+    fun delete(@PathVariable("book_id") bookId: Int) {
         service.deleteBook(bookId)
     }
 }

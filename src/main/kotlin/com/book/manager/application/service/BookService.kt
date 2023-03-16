@@ -12,10 +12,17 @@ class BookService(
     private val repository: AuthorRepository,
     private val bookRepository: BookRepository,
 ) {
+
+    /**
+     * 著者・書籍を取得します
+     */
     fun getBooksByAuthor(id: Int): List<AuthorWithBook> {
         return repository.findBy(id)
     }
 
+    /**
+     * 著者・書籍を登録します
+     */
     fun registerBook(author: Author, book: Book): Book {
         val saveResultAuthor = repository.save(author)
         return bookRepository.save(
@@ -28,11 +35,17 @@ class BookService(
         )
     }
 
-    fun updateBook(book: Book){
+    /**
+     * 書籍を更新します
+     */
+    fun updateBook(book: Book) {
         println("debug message: $book")
         bookRepository.update(book)
     }
 
+    /**
+     * 書籍を削除します
+     */
     fun deleteBook(bookId: Int) {
         bookRepository.delete(bookId)
     }

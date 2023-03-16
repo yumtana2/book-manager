@@ -1,6 +1,5 @@
 package com.book.manager.domain.repository
 
-import com.book.manager.domain.model.Author
 import com.book.manager.domain.model.AuthorWithBook
 import com.book.manager.domain.model.Book
 import com.example.ktknowledgeTodo.infra.jooq.tables.references.AUTHOR
@@ -35,12 +34,15 @@ class BookRepositoryImpl(private val dslContext: DSLContext) : BookRepository {
         return Book(record.id!!, record.authorId!!, record.title!!)
     }
 
+    /**
+     * 更新
+     */
     override fun update(book: Book) {
         this.dslContext.update(BOOK_).set(BOOK_.TITLE, book.title).where(BOOK_.ID.eq(book.id)).execute()
     }
 
     /**
-     * IDで削除
+     * 削除
      */
     override fun delete(id: Int) {
         this.dslContext.delete(BOOK_).where(BOOK_.ID.eq(id)).execute()
@@ -49,11 +51,6 @@ class BookRepositoryImpl(private val dslContext: DSLContext) : BookRepository {
     /**
      * 取得レコードからモデルへ変換する
      */
-    private fun toAuthorModel(record: Record) = Author(
-        record.getValue(AUTHOR.ID)!!,
-        record.getValue(AUTHOR.NAME)!!,
-    )
-
     private fun toModel(record: Record) = AuthorWithBook(
         record.getValue(AUTHOR.ID)!!,
         record.getValue(BOOK_.ID)!!,

@@ -23,13 +23,6 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     }
 
     /**
-     * 全件取得
-     */
-    override fun findAll(): List<AuthorWithBook> {
-        return this.dslContext.select().from(AUTHOR).join(BOOK_).on(BOOK_.AUTHOR_ID.eq(AUTHOR.ID))
-            .fetch().map { toModel(it) }    }
-
-    /**
      * 登録
      */
     override fun save(author: Author): Author {
@@ -41,20 +34,8 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     }
 
     /**
-     * IDで削除
-     */
-    override fun delete(id: Int) {
-        this.dslContext.delete(AUTHOR).where(AUTHOR.ID.eq(id)).execute()
-    }
-
-    /**
      * 取得レコードからモデルへ変換する
      */
-    private fun toAuthorModel(record: Record) = Author(
-        record.getValue(AUTHOR.ID)!!,
-        record.getValue(AUTHOR.NAME)!!,
-    )
-
     private fun toModel(record: Record) = AuthorWithBook(
         record.getValue(AUTHOR.ID)!!,
         record.getValue(BOOK_.ID)!!,
